@@ -105,6 +105,10 @@ public class TextNode extends LeafNode {
         if( normaliseWhite && isBlank){
             return;
         }
+        if (StringUtil.in(this.parent().nodeName(), "iframe", "xmp","noembed", "noframes")) {
+        	accum.append(coreValue());
+        	return;
+        }
         Entities.escape(accum, coreValue(), out, false, normaliseWhite, false);
     }
 
