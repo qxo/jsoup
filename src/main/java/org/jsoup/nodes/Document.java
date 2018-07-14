@@ -378,11 +378,19 @@ public class Document extends Element {
         private boolean outline = false;
         private int indentAmount = 1;
         private Syntax syntax = Syntax.html;
+        private String lineSeparator = "\n";
 
         public OutputSettings() {
             charset(Charset.forName("UTF8"));
         }
-        
+
+        public String getLineSeparator() {
+            return lineSeparator;
+        }
+
+        public void setLineSeparator(String lineSeparator) {
+            this.lineSeparator = lineSeparator;
+        }
         /**
          * Get the document's current HTML escape mode: <code>base</code>, which provides a limited set of named HTML
          * entities and escapes other characters as numbered entities for maximum compatibility; or <code>extended</code>,

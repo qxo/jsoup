@@ -604,7 +604,7 @@ public abstract class Node implements Cloneable {
     }
 
     protected void indent(Appendable accum, int depth, Document.OutputSettings out) throws IOException {
-        accum.append('\n').append(StringUtil.padding(depth * out.indentAmount()));
+        accum.append(out.getLineSeparator()).append(StringUtil.padding(depth * out.indentAmount()));
     }
 
     /**
