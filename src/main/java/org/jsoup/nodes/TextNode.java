@@ -93,25 +93,37 @@ public class TextNode extends LeafNode {
         return tailNode;
     }
 
+
 	void outerHtmlHead(Appendable accum, int depth, Document.OutputSettings out) throws IOException {
         final boolean isBlank = isBlank();
-        if (out.prettyPrint() && ((siblingIndex() == 0 && parentNode instanceof Element 
-        	&& ((Element) parentNode).tag().formatAsBlock() && !isBlank) 
-            || (out.outline() && siblingNodes().size()>0 && !isBlank) ))
+       if ( !isBlank && out.prettyPrint() && ((siblingIndex() == 0 && parentNode instanceof Element 
+        	&& ((Element) parentNode).tag().formatAsBlock() ) 
+            || (out.outline() && siblingNodes().size()>0 ) )) {
             indent(accum, depth, out);
-
-        boolean normaliseWhite = out.prettyPrint() && parent() instanceof Element
-                && !Element.preserveWhitespace(parent());
-        if( normaliseWhite && isBlank){
-            return;
         }
-        if (StringUtil.in(this.parent().nodeName(), "iframe", "xmp","noembed", "noframes")) {
-        	accum.append(coreValue());
+     
+      Node parent = parent();
+	boolean normaliseWhite = out.prettyPrint() && parent instanceof Element
+                && !Element.preserveWhitespace(parent);
+       String coreValue = coreValue();
+      if(  normaliseWhite && isBlank 
+    		&& ("\n".equals(coreValue) || "\r\n".equals(coreValue) || "\r".equals(coreValue))
+    	){
+    	  return;
+      }
+//      if ( normaliseWhite ) {
+//    	  coreValue = coreValue.trim();
+//      }
+		if (StringUtil.in(this.parent().nodeName(), "iframe", "xmp","noembed", "noframes")) {
+        	accum.append(coreValue);
         	return;
         }
-        Entities.escape(accum, coreValue(), out, false, normaliseWhite, false);
+        Entities.escape(accum, coreValue, out, false, normaliseWhite, normaliseWhite && !isBlank  &&   isBlockOrNull(this.previousSibling()));
     }
 
+	private boolean isBlockOrNull( Node parent) {
+		 return parent == null  ||  parent instanceof Element &&  ((Element)parent).tag().isBlock() ;
+	}
 	void outerHtmlTail(Appendable accum, int depth, Document.OutputSettings out) {}
 
     @Override

@@ -186,8 +186,9 @@ public class Entities {
 
             if (normaliseWhite) {
                 if (StringUtil.isWhitespace(codePoint)) {
-                    if ((stripLeadingWhite && !reachedNonWhite) || lastWasWhite)
+                    if ((stripLeadingWhite && !reachedNonWhite) || lastWasWhite || '\n' ==codePoint  || '\r' ==codePoint 	) {
                         continue;
+                    }
                     accum.append(' ');
                     lastWasWhite = true;
                     continue;
