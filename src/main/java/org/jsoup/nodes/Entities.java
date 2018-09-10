@@ -23,7 +23,7 @@ public class Entities {
     private static final String emptyName = "";
     static final int codepointRadix = 36;
     private static final char[] codeDelims = {',', ';'};
-    private static final HashMap<String, String> multipoints = new HashMap<>(); // name -> multiple character references
+    private static final HashMap<String, String> multipoints = new HashMap<String, String>(); // name -> multiple character references
     private static final Document.OutputSettings DefaultOutput = new Document.OutputSettings();
 
     public enum EscapeMode {

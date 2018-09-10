@@ -115,8 +115,8 @@ public class Selector {
         Validate.notEmpty(query);
         Validate.notNull(roots);
         Evaluator evaluator = QueryParser.parse(query);
-        ArrayList<Element> elements = new ArrayList<>();
-        IdentityHashMap<Element, Boolean> seenElements = new IdentityHashMap<>();
+        ArrayList<Element> elements = new ArrayList<Element>();
+        IdentityHashMap<Element, Boolean> seenElements = new IdentityHashMap<Element, Boolean>();
         // dedupe elements by identity, not equality
 
         for (Element root : roots) {

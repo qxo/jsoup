@@ -71,7 +71,7 @@ public class W3CDom {
         private static final String xmlnsPrefix = "xmlns:";
 
         private final Document doc;
-        private final Stack<HashMap<String, String>> namespacesStack = new Stack<>(); // stack of namespaces, prefix => urn
+        private final Stack<HashMap<String, String>> namespacesStack = new Stack<HashMap<String, String>>(); // stack of namespaces, prefix => urn
         private Element dest;
 
         public W3CBuilder(Document doc) {
@@ -80,7 +80,7 @@ public class W3CDom {
         }
 
         public void head(org.jsoup.nodes.Node source, int depth) {
-            namespacesStack.push(new HashMap<>(namespacesStack.peek())); // inherit from above on the stack
+            namespacesStack.push(new HashMap<String, String>(namespacesStack.peek())); // inherit from above on the stack
             if (source instanceof org.jsoup.nodes.Element) {
                 org.jsoup.nodes.Element sourceEl = (org.jsoup.nodes.Element) source;
 

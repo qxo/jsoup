@@ -338,8 +338,8 @@ public class HttpConnection implements Connection {
         Map<String, String> cookies;
 
         private Base() {
-            headers = new LinkedHashMap<>();
-            cookies = new LinkedHashMap<>();
+            headers = new LinkedHashMap<String, List<String>>();
+            cookies = new LinkedHashMap<String, String>();
         }
 
         public URL url() {
@@ -380,7 +380,7 @@ public class HttpConnection implements Connection {
 
             List<String> values = headers(name);
             if (values.isEmpty()) {
-                values = new ArrayList<>();
+                values = new ArrayList<String>();
                 headers.put(name, values);
             }
             values.add(fixHeaderEncoding(value));
@@ -478,7 +478,7 @@ public class HttpConnection implements Connection {
         }
 
         public Map<String, String> headers() {
-            LinkedHashMap<String, String> map = new LinkedHashMap<>(headers.size());
+            LinkedHashMap<String, String> map = new LinkedHashMap<String, String>(headers.size());
             for (Map.Entry<String, List<String>> entry : headers.entrySet()) {
                 String header = entry.getKey();
                 List<String> values = entry.getValue();
@@ -560,7 +560,7 @@ public class HttpConnection implements Connection {
             timeoutMilliseconds = 30000; // 30 seconds
             maxBodySizeBytes = 1024 * 1024; // 1MB
             followRedirects = true;
-            data = new ArrayList<>();
+            data = new ArrayList<Connection.KeyVal>();
             method = Method.GET;
             addHeader("Accept-Encoding", "gzip");
             addHeader(USER_AGENT, DEFAULT_UA);
@@ -1000,7 +1000,9 @@ public class HttpConnection implements Connection {
                     sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
                     // Create an ssl socket factory with our all-trusting manager
                     sslSocketFactory = sslContext.getSocketFactory();
-                } catch (NoSuchAlgorithmException | KeyManagementException e) {
+                } catch (NoSuchAlgorithmException e){
+                    throw new IOException("Can't create unsecure trust manager");
+                } catch (KeyManagementException e) {
                     throw new IOException("Can't create unsecure trust manager");
                 }
             }
@@ -1029,7 +1031,7 @@ public class HttpConnection implements Connection {
 
         private static LinkedHashMap<String, List<String>> createHeaderMap(HttpURLConnection conn) {
             // the default sun impl of conn.getHeaderFields() returns header values out of order
-            final LinkedHashMap<String, List<String>> headers = new LinkedHashMap<>();
+            final LinkedHashMap<String, List<String>> headers = new LinkedHashMap<String, List<String>>();
             int i = 0;
             while (true) {
                 final String key = conn.getHeaderFieldKey(i);
@@ -1043,7 +1045,7 @@ public class HttpConnection implements Connection {
                 if (headers.containsKey(key))
                     headers.get(key).add(val);
                 else {
-                    final ArrayList<String> vals = new ArrayList<>();
+                    final ArrayList<String> vals = new ArrayList<String>();
                     vals.add(val);
                     headers.put(key, vals);
                 }

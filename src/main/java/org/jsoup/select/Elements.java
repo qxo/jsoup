@@ -90,7 +90,7 @@ public class Elements extends ArrayList<Element> {
      * @return a list of each element's attribute value for the attribute
      */
     public List<String> eachAttr(String attributeKey) {
-        List<String> attrs = new ArrayList<>(size());
+        List<String> attrs = new ArrayList<String>(size());
         for (Element element : this) {
             if (element.hasAttr(attributeKey))
                 attrs.add(element.attr(attributeKey));
@@ -236,7 +236,7 @@ public class Elements extends ArrayList<Element> {
      * @see #text()
      */
     public List<String> eachText() {
-        ArrayList<String> texts = new ArrayList<>(size());
+        ArrayList<String> texts = new ArrayList<String>(size());
         for (Element el: this) {
             if (el.hasText())
                 texts.add(el.text());
@@ -582,7 +582,7 @@ public class Elements extends ArrayList<Element> {
      * @return all of the parents and ancestor elements of the matched elements
      */
     public Elements parents() {
-        HashSet<Element> combo = new LinkedHashSet<>();
+        HashSet<Element> combo = new LinkedHashSet<Element>();
         for (Element e: this) {
             combo.addAll(e.parents());
         }
@@ -632,7 +632,7 @@ public class Elements extends ArrayList<Element> {
      * no forms.
      */
     public List<FormElement> forms() {
-        ArrayList<FormElement> forms = new ArrayList<>();
+        ArrayList<FormElement> forms = new ArrayList<FormElement>();
         for (Element el: this)
             if (el instanceof FormElement)
                 forms.add((FormElement) el);

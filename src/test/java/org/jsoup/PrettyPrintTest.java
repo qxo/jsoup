@@ -24,7 +24,7 @@ public class PrettyPrintTest {
 	@Test
 	public void test4unkownTag(){
 		
-		String html="<w:xtag1>Aa</w:xtag1>";
+		String html="<w:xtag1>Aa</w:xtag1>\n<w:xtag1>Aa</w:xtag1>";
 		final Document doc = Jsoup.parse(html);
 		doc.outputSettings().prettyPrint(true);
 		
@@ -34,6 +34,31 @@ public class PrettyPrintTest {
 	
 	}
 	
+	@Test
+	public void test4empty1(){
+		
+		String html="<div>\n &amp;\n</div>";
+		final Document doc = Jsoup.parse(html);
+		doc.outputSettings().prettyPrint(true);
+		
+		String prettyHtml = doc.body().html();
+		System.out.println("prettyHtml:"+prettyHtml);
+		Assert.assertEquals(html, prettyHtml);
+	
+	}
+	
+	@Test
+	public void test4illegalNestedNode(){
+		
+		String html="<a>a1<a>a2</a>";
+		final Document doc = Jsoup.parse(html);
+		doc.outputSettings().prettyPrint(true);
+		
+		String prettyHtml = doc.body().html();
+		System.out.println("prettyHtml:"+prettyHtml);
+		Assert.assertEquals(html, prettyHtml);
+	
+	}
 	
 		@Test
 	public void test4prettyPrint1(){

@@ -991,14 +991,13 @@ enum HtmlTreeBuilderState {
                     break;
                 case StartTag:
                     Token.StartTag startTag = t.asStartTag();
-                    switch (startTag.normalName()) {
-                        case "html":
-                            return tb.process(t, InBody);
-                        case "col":
+                    String n1 = startTag.normalName();
+                    if( "html".equals(n1) ){
+                        return tb.process(t, InBody);
+                    }else if ( "col".equals(n1) ){
                             tb.insertEmpty(startTag);
-                            break;
-                        default:
-                            return anythingElse(t, tb);
+                    }else{
+                        return anythingElse(t, tb);
                     }
                     break;
                 case EndTag:
@@ -1265,22 +1264,19 @@ enum HtmlTreeBuilderState {
                 case EndTag:
                     Token.EndTag end = t.asEndTag();
                     name = end.normalName();
-                    switch (name) {
-                        case "optgroup":
+                    if( "optgroup".equals(name) ) {
                             if (tb.currentElement().nodeName().equals("option") && tb.aboveOnStack(tb.currentElement()) != null && tb.aboveOnStack(tb.currentElement()).nodeName().equals("optgroup"))
                                 tb.processEndTag("option");
                             if (tb.currentElement().nodeName().equals("optgroup"))
                                 tb.pop();
                             else
                                 tb.error(this);
-                            break;
-                        case "option":
+                    }else if( "option".equals(name) ) {
                             if (tb.currentElement().nodeName().equals("option"))
                                 tb.pop();
                             else
                                 tb.error(this);
-                            break;
-                        case "select":
+                    }else if( "select".equals(name) ) {
                             if (!tb.inSelectScope(name)) {
                                 tb.error(this);
                                 return false;
@@ -1288,8 +1284,7 @@ enum HtmlTreeBuilderState {
                                 tb.popStackToClose(name);
                                 tb.resetInsertionMode();
                             }
-                            break;
-                        default:
+                    }else{
                             return anythingElse(t, tb);
                     }
                     break;
@@ -1365,18 +1360,16 @@ enum HtmlTreeBuilderState {
                 return false;
             } else if (t.isStartTag()) {
                 Token.StartTag start = t.asStartTag();
-                switch (start.normalName()) {
-                    case "html":
+                String name = start.normalName();
+                if( "html".equals(name) ) {
                         return tb.process(start, InBody);
-                    case "frameset":
+                }else if( "frameset".equals(name) ) {
                         tb.insert(start);
-                        break;
-                    case "frame":
+                }else if( "frame".equals(name) ) {
                         tb.insertEmpty(start);
-                        break;
-                    case "noframes":
+                }else if( "noframes".equals(name) ) {
                         return tb.process(start, InHead);
-                    default:
+                }else {
                         tb.error(this);
                         return false;
                 }

@@ -71,8 +71,8 @@ public class HtmlTreeBuilder extends TreeBuilder {
         headElement = null;
         formElement = null;
         contextElement = null;
-        formattingElements = new ArrayList<>();
-        pendingTableCharacters = new ArrayList<>();
+        formattingElements = new ArrayList<Element>();
+        pendingTableCharacters = new ArrayList<String>();
         emptyEnd = new Token.EndTag();
         framesetOk = true;
         fosterInserts = false;
@@ -549,7 +549,7 @@ public class HtmlTreeBuilder extends TreeBuilder {
     }
 
     void newPendingTableCharacters() {
-        pendingTableCharacters = new ArrayList<>();
+        pendingTableCharacters = new ArrayList<String>();
     }
 
     List<String> getPendingTableCharacters() {

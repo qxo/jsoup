@@ -70,7 +70,7 @@ public class HttpConnectionTest {
 
     @Test public void headers() {
         Connection con = HttpConnection.connect("http://example.com");
-        Map<String, String> headers = new HashMap<>();
+        Map<String, String> headers = new HashMap<String, String>();
         headers.put("content-type", "text/html");
         headers.put("Connection", "keep-alive");
         headers.put("Host", "http://example.com");
@@ -81,8 +81,8 @@ public class HttpConnectionTest {
     }
 
     @Test public void sameHeadersCombineWithComma() {
-        Map<String, List<String>> headers = new HashMap<>();
-        List<String> values = new ArrayList<>();
+        Map<String, List<String>> headers = new HashMap<String, List<String>>();
+        List<String> values = new ArrayList<String>();
         values.add("no-cache");
         values.add("no-store");
         headers.put("Cache-Control", values);
@@ -126,7 +126,7 @@ public class HttpConnectionTest {
 
     @Test public void ignoresEmptySetCookies() {
         // prep http response header map
-        Map<String, List<String>> headers = new HashMap<>();
+        Map<String, List<String>> headers = new HashMap<String, List<String>>();
         headers.put("Set-Cookie", Collections.<String>emptyList());
         HttpConnection.Response res = new HttpConnection.Response();
         res.processResponseHeaders(headers);
@@ -135,8 +135,8 @@ public class HttpConnectionTest {
 
     @Test public void ignoresEmptyCookieNameAndVals() {
         // prep http response header map
-        Map<String, List<String>> headers = new HashMap<>();
-        List<String> cookieStrings = new ArrayList<>();
+        Map<String, List<String>> headers = new HashMap<String, List<String>>();
+        List<String> cookieStrings = new ArrayList<String>();
         cookieStrings.add(null);
         cookieStrings.add("");
         cookieStrings.add("one");

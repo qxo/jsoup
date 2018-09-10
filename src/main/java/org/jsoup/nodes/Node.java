@@ -216,7 +216,7 @@ public abstract class Node implements Cloneable {
      */
     public List<Node> childNodesCopy() {
         final List<Node> nodes = ensureChildNodes();
-        final ArrayList<Node> children = new ArrayList<>(nodes.size());
+        final ArrayList<Node> children = new ArrayList<Node>(nodes.size());
         for (Node node : nodes) {
             children.add(node.clone());
         }
@@ -486,7 +486,7 @@ public abstract class Node implements Cloneable {
             return Collections.emptyList();
 
         List<Node> nodes = parentNode.ensureChildNodes();
-        List<Node> siblings = new ArrayList<>(nodes.size() - 1);
+        List<Node> siblings = new ArrayList<Node>(nodes.size() - 1);
         for (Node node: nodes)
             if (node != this)
                 siblings.add(node);
@@ -647,7 +647,7 @@ public abstract class Node implements Cloneable {
         Node thisClone = doClone(null); // splits for orphan
 
         // Queue up nodes that need their children cloned (BFS).
-        final LinkedList<Node> nodesToProcess = new LinkedList<>();
+        final LinkedList<Node> nodesToProcess = new LinkedList<Node>();
         nodesToProcess.add(thisClone);
 
         while (!nodesToProcess.isEmpty()) {
